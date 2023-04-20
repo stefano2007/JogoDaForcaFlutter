@@ -20,23 +20,29 @@ class _JogoForcaPage extends State<JogoForcaPage> {
     );
   }
 
-  List<Widget> obterBotoes(JogoForcaController controller) {
+  List<Widget> obterBotoes(JogoForcaController controller, String Alfabeto) {
     //const Alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const Alfabeto = "ABCDEF";
-
+    //const Alfabeto = "ABCDEFGH";
     List<Widget> result = [];
 
     for (String letra in Alfabeto.split("")) {
       result.add(
-        TextButton(
+        ElevatedButton(
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+          ),
           onPressed: () {
-            debugPrint(letra);
             controller.addPalpite(letra);
-            setState(() { /*forçar atualizar display */});
+            setState(() {
+              /*forçar atualizar display */
+            });
           },
           child: Text(
             letra,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(
+              fontSize: 16,
+            ),
           ),
         ),
       );
@@ -80,7 +86,7 @@ class _JogoForcaPage extends State<JogoForcaPage> {
               children: [
                 //Image.asset('a'),
                 Text(
-                  "Tentativas: ${jogoController.getChances()}",
+                  "Tentativas: ${jogoController.getTentativas()}",
                   style: const TextStyle(fontSize: 16),
                 ),
                 MostrarLetras(jogoController.displayLetras),
@@ -88,8 +94,25 @@ class _JogoForcaPage extends State<JogoForcaPage> {
                   jogador.nome,
                   style: const TextStyle(fontSize: 30),
                 ),
-                Row(
-                  children: obterBotoes(jogoController),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: obterBotoes(jogoController, "ABCDFGH"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: obterBotoes(jogoController,"IJKLMN"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: obterBotoes(jogoController,"OPQRST"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: obterBotoes(jogoController,"UVWXYZ"),
+                    ),
+                  ],
                 ),
               ],
             ),

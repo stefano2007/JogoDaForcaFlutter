@@ -16,7 +16,7 @@ class JogoForcaController extends ChangeNotifier{
     String _palavra="";
     final List<String> _palpites = [];
 
-    int tentativas = 6;
+    int _tentativas = 0;
 
     final int _tentativasPermitidas = 6;
 
@@ -34,7 +34,7 @@ class JogoForcaController extends ChangeNotifier{
 
     void IniciarJogo(int jogadorId) async {
       jogador = await jogadorRepository.ObterPorId(jogadorId);
-      tentativas = 6;
+      _tentativas = 6;
 
       //Todo: criar um novo Jogo
       jogo = await jogoRepository.ObterPorId(1);
@@ -50,8 +50,9 @@ class JogoForcaController extends ChangeNotifier{
       atualizarDisplay();
     }
 
-    int getChances() =>
-       (_tentativasPermitidas - _palpites.length);
+    int getChances() => _palpites.length;
+
+    int getTentativas() => _tentativas;
 
     void obterJogador(int id) async {
       this.jogador = await this.jogadorRepository.ObterPorId(id);
@@ -69,6 +70,7 @@ class JogoForcaController extends ChangeNotifier{
     addPalpite(String letra){
       print("addPalpite $letra");
       _palpites.add(letra);
+      _tentativas++;
       atualizarDisplay();
     }
 
